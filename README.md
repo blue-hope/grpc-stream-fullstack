@@ -1,5 +1,7 @@
 # grpc-stream-fullstack
 
+chat application build with grpc named `qhat` (for Mathpresso Reserve)
+
 ## Prerequisites
 ### server
 * sync `.proto` files on `src/main/proto/grpc/qhat/`

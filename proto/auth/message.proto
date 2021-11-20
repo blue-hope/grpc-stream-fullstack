@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package grpc.qhat.auth;
+
+import "google/protobuf/struct.proto";
+
+message LoginRequest {
+  string email = 1;
+  string password = 2;
+}
+
+message LoginResponse {
+  int64 userId = 1;
+}

@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package grpc.qhat.user;
+
+import "google/protobuf/struct.proto";
+import "grpc/qhat/user/entity.proto";
+
+message CreateRequest {
+  User user = 1;
+  string password = 2;
+}
+
+message CreateResponse {
+  User user = 1;
+}

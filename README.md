@@ -1,6 +1,6 @@
 # grpc-stream-fullstack
 
-chat application build with grpc named `qhat` (for Mathpresso Reserve)
+chat application build with grpc named `qhat`
 
 ## Prerequisites
 ### server

@@ -1,4 +1,4 @@
-package ai.qanda.qhat.interfaces.user
+package com.qhatcorp.qhat.interfaces.user
 
 import grpc.qhat.user.Message
 import grpc.qhat.user.UserServiceGrpc

@@ -1,4 +1,4 @@
-package ai.qanda.qhat
+package com.qhatcorp.qhat
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest

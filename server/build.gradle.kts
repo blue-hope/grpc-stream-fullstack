@@ -10,7 +10,7 @@ plugins {
 }
 
 val grpcVersion = "1.32.1"
-group = "ai.qanda"
+group = "com.qhatcorp"
 version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_1_8
 

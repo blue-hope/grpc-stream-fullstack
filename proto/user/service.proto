@@ -6,5 +6,5 @@ import "google/protobuf/struct.proto";
 import "grpc/qhat/user/message.proto";
 
 service UserService {
-  rpc createUser(CreateRequest) returns (CreateResponse) {}
+  rpc create(CreateRequest) returns (CreateResponse) {}
 }

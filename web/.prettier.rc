@@ -1,0 +1,18 @@
+{
+  "singleQuote": true,
+  "trailingComma": "all",
+  "semi": true,
+  "arrowParens": "always",
+  "useTabs": false,
+  "tabWidth": 2,
+  "endOfLine": "lf",
+  "importOrder": [
+    "^react[a-zA-Z/-]*",
+    "^next[a-zA-Z/-]*",
+    "(?!^react$)(?!^next)^[a-zA-Z/-]*$",
+    "(?!^@api)(?!^@components)(?!^@hooks)(?!^@pages)(?!^@stores)(?!^@styles)(?!^@utils)^@([a-zA-Z]*)(.*)$",
+    "^(@api|@components|@hooks|@pages|@stores|@styles|@utils)(.*)$",
+    "^[./]"
+  ],
+  "importOrderSeparation": false
+}

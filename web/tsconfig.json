@@ -1,7 +1,17 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "es2017",
     "lib": ["dom", "dom.iterable", "esnext"],
+    "baseUrl": ".",
+    "paths": {
+      "@api/*": ["src/api/*"],
+      "@components/*": ["src/components/*"],
+      "@hooks/*": ["src/hooks/*"],
+      "@pages/*": ["src/pages/*"],
+      "@stores/*": ["src/stores/*"],
+      "@styles/*": ["public/styles/*"],
+      "@utils/*": ["src/utils/*"],
+    },
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,

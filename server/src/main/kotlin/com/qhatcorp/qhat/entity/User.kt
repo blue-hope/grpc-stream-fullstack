@@ -1,10 +1,14 @@
 package com.qhatcorp.qhat.entity
 
 import grpc.qhat.user.Message
+import javax.persistence.CascadeType
 import javax.persistence.Entity
+import javax.persistence.FetchType
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
+import javax.persistence.JoinColumn
+import javax.persistence.OneToOne
 import javax.persistence.Table
 
 @Entity
@@ -14,7 +18,13 @@ class User(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
     val email: String,
-    val userName: String
+    val userName: String,
+    @OneToOne(
+        fetch = FetchType.LAZY,
+        cascade = [CascadeType.ALL],
+        mappedBy = "user"
+    )
+    var auth: Auth? = null
 ) {
     companion object {
         fun fromProto(userProto: Message.UserProto): User {

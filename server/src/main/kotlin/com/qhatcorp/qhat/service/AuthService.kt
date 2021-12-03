@@ -1,6 +1,7 @@
 package com.qhatcorp.qhat.service
 
 import com.qhatcorp.qhat.entity.Auth
+import com.qhatcorp.qhat.entity.User
 import com.qhatcorp.qhat.repository.AuthRepository
 import org.mindrot.jbcrypt.BCrypt
 import org.springframework.stereotype.Service
@@ -14,13 +15,11 @@ class AuthService(
         return Pair(BCrypt.hashpw(password, salt), salt)
     }
 
-    fun createAuth(password: String): Auth {
+    fun getAuth(password: String): Auth {
         val (hashedPassword, salt) = hashPassword(password)
-        return authRepository.save(
-            Auth(
-                password = hashedPassword,
-                salt = salt
-            )
+        return Auth(
+            password = hashedPassword,
+            salt = salt
         )
     }
 }

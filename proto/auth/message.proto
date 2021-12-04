@@ -10,5 +10,5 @@ message LoginRequest {
 }
 
 message LoginResponse {
-  int64 userId = 1;
+  string accessToken = 1;
 }

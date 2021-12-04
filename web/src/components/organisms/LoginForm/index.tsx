@@ -1,15 +1,11 @@
-import {
-  CreateRequest as UserCreateRequest,
-  UserProto,
-} from "@api/_proto/grpc/qhat/user/message_pb";
-import { userCreate } from "@api/user";
+import { LoginRequest } from "@api/_proto/grpc/qhat/auth/message_pb";
+import { login } from "@api/auth";
 import { UserState } from "@stores/user";
 import { useRouter } from "next/router";
 import React, { FC, useEffect, useState } from "react";
-import { toast } from "react-toastify";
 import { useSetRecoilState } from "recoil";
 
-interface SignupFormProps {}
+interface LoginFormProps {}
 
 interface LabelProps {
   name: string;
@@ -26,28 +22,16 @@ const Label: FC<LabelProps> = ({ name }) => {
   );
 };
 
-const SignupForm: FC<SignupFormProps> = () => {
+const LoginForm: FC<LoginFormProps> = () => {
   const router = useRouter();
   const setUser = useSetRecoilState(UserState);
-  const [user] = useState(new UserProto());
-  const [request] = useState(new UserCreateRequest());
+  const [request] = useState(new LoginRequest());
 
-  async function handleSignUp() {
-    const id = toast.loading("요청을 처리중입니다...");
-    const userCreateResponse = await userCreate(request);
-    setUser(userCreateResponse.getUser());
-    toast.update(id, {
-      render: "회원가입 되었습니다. 로그인 해주세요.",
-      type: "success",
-      isLoading: false,
-      autoClose: 2000,
-    });
-    router.push("/login");
+  async function handleLogin() {
+    const loginResponse = await login(request);
+    console.log(loginResponse.getAccesstoken());
+    // router.push("/friend");
   }
-
-  useEffect(() => {
-    request.setUser(user);
-  }, [request, user]);
 
   return (
     <div className="w-3/4">
@@ -60,7 +44,7 @@ const SignupForm: FC<SignupFormProps> = () => {
             className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-red-400"
             type="email"
             placeholder="dave.kwon@mathpresso.com"
-            onChange={(e) => user.setEmail(e.target.value)}
+            onChange={(e) => request.setEmail(e.target.value)}
           />
         </div>
       </div>
@@ -77,27 +61,14 @@ const SignupForm: FC<SignupFormProps> = () => {
           />
         </div>
       </div>
-      <div className="flex flex-wrap mb-6">
-        <div className="w-full">
-          <Label name="Name"></Label>
-        </div>
-        <div className="w-full">
-          <input
-            className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-red-400"
-            type="text"
-            placeholder="Dave Kwon"
-            onChange={(e) => user.setUsername(e.target.value)}
-          />
-        </div>
-      </div>
       <div className="flex items-center">
         <div className="w-full">
           <button
             className="shadow w-full bg-red-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
             type="button"
-            onClick={handleSignUp}
+            onClick={handleLogin}
           >
-            Sign Up
+            Login
           </button>
         </div>
       </div>
@@ -105,4 +76,4 @@ const SignupForm: FC<SignupFormProps> = () => {
   );
 };
 
-export default SignupForm;
+export default LoginForm;

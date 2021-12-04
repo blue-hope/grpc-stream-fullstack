@@ -4,3 +4,7 @@ package grpc.qhat.auth;
 
 import "google/protobuf/struct.proto";
 import "grpc/qhat/auth/message.proto";
+
+service AuthService {
+  rpc login(LoginRequest) returns (LoginResponse) {}
+}

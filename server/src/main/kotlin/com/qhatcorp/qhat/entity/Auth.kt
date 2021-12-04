@@ -15,8 +15,7 @@ class Auth(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private val id: Long? = null,
-    private val password: String,
-    private val salt: String,
+    val password: String,
     @OneToOne(
         fetch = FetchType.LAZY,
         optional = false

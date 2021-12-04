@@ -15,13 +15,15 @@ class UserController(
         responseObserver: StreamObserver<Message.CreateResponse>
     ) {
         val user = userService.createUser(request)
-        responseObserver.onNext(
-            Message.CreateResponse.newBuilder()
-                .apply {
-                    this.user = user.toProto()
-                }
-                .build()
-        )
-        responseObserver.onCompleted()
+        responseObserver.also {
+            it.onNext(
+                Message.CreateResponse.newBuilder()
+                    .apply {
+                        this.user = user.toProto()
+                    }
+                    .build()
+            )
+            it.onCompleted()
+        }
     }
 }

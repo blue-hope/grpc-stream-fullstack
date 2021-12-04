@@ -23,4 +23,8 @@ class UserService(
             }
         )
     }
+
+    fun getUserByEmail(email: String): User? {
+        return userRepository.getByEmail(email)
+    }
 }

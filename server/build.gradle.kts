@@ -11,6 +11,8 @@ plugins {
 }
 
 val grpcVersion = "1.32.1"
+val jjwtVersion = "0.11.2"
+
 group = "com.qhatcorp"
 version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_1_8
@@ -29,14 +31,20 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("mysql:mysql-connector-java")
 
+    // flyway
+    implementation("org.flywaydb:flyway-core:8.2.0")
+
     // grpc
-    implementation("io.grpc:grpc-netty:${grpcVersion}")
-    implementation("io.grpc:grpc-protobuf:${grpcVersion}")
-    implementation("io.grpc:grpc-stub:${grpcVersion}")
+    implementation("io.grpc:grpc-netty:$grpcVersion")
+    implementation("io.grpc:grpc-protobuf:$grpcVersion")
+    implementation("io.grpc:grpc-stub:$grpcVersion")
     implementation("io.github.lognet:grpc-spring-boot-starter:4.0.0")
 
-    // extra
+    // auth
     implementation("org.mindrot:jbcrypt:0.4")
+    implementation("io.jsonwebtoken:jjwt-api:$jjwtVersion")
+    implementation("io.jsonwebtoken:jjwt-impl:$jjwtVersion")
+    implementation("io.jsonwebtoken:jjwt-jackson:$jjwtVersion")
 
     // test
     testImplementation("org.springframework.boot:spring-boot-starter-test")

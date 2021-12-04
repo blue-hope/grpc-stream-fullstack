@@ -1,10 +1,11 @@
-import { User } from "@api/_proto/grpc/qhat/user/entity_pb";
 import {
   CreateRequest as UserCreateRequest,
   UserProto,
 } from "@api/_proto/grpc/qhat/user/message_pb";
-import { UserServiceClient } from "@api/_proto/grpc/qhat/user/service_pb_service";
-import React, { FC, useState } from "react";
+import { userCreate } from "@api/user";
+import { UserState } from "@stores/user";
+import React, { FC, useEffect, useState } from "react";
+import { useSetRecoilState } from "recoil";
 
 interface SignupFormProps {}
 
@@ -24,18 +25,18 @@ const Label: FC<LabelProps> = ({ name }) => {
 };
 
 const SignupForm: FC<SignupFormProps> = () => {
-  const [userName, setUserName] = useState("");
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
+  const setUser = useSetRecoilState(UserState);
+  const [user] = useState(new UserProto());
+  const [request] = useState(new UserCreateRequest());
 
   async function handleSignUp() {
-    const request = new UserCreateRequest();
-    const user = new User();
-    user.setUsername(userName);
-    user.setEmail(email);
-    request.setUser(user);
-    request.setPassword(password);
+    const userCreateResponse = await userCreate(request);
+    setUser(userCreateResponse.getUser());
   }
+
+  useEffect(() => {
+    request.setUser(user);
+  }, [request, user]);
 
   return (
     <div className="w-3/4">
@@ -48,7 +49,7 @@ const SignupForm: FC<SignupFormProps> = () => {
             className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-red-400"
             type="text"
             placeholder="Dave Kwon"
-            onChange={(e) => setUserName(e.target.value)}
+            onChange={(e) => user.setUsername(e.target.value)}
           />
         </div>
       </div>
@@ -61,7 +62,7 @@ const SignupForm: FC<SignupFormProps> = () => {
             className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-red-400"
             type="password"
             placeholder="******************"
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => request.setPassword(e.target.value)}
           />
         </div>
       </div>
@@ -74,7 +75,7 @@ const SignupForm: FC<SignupFormProps> = () => {
             className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-red-400"
             type="email"
             placeholder="dave.kwon@mathpresso.com"
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => user.setEmail(e.target.value)}
           />
         </div>
       </div>

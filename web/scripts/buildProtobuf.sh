@@ -1,5 +1,6 @@
 #!/bin/bash
 
+rm -rf ./src/api/_proto
 mkdir -p ./src/api/_proto
 
 PROTOC=`command -v protoc`

@@ -12,8 +12,8 @@ const BackgroundTemplate: FC<BackgroundTemplateProps> = ({
 }) => {
   return (
     <div className="flex justify-center">
-      <div className="max-w-screen-lg h-full bg-white dark:bg-gray-800 relative">
-        <div className="mt-4 text-lg font-semibold">{title}</div>
+      <div className="w-full h-full relative p-5">
+        <div className="text-xl font-semibold text-left">{title}</div>
         {children}
       </div>
       <Footer />

@@ -3,11 +3,9 @@ import {
   UserProto,
 } from "@api/_proto/grpc/qhat/user/message_pb";
 import { userCreate } from "@api/user";
-import { UserState } from "@stores/user";
 import { useRouter } from "next/router";
 import React, { FC, useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { useSetRecoilState } from "recoil";
 
 interface SignupFormProps {}
 
@@ -93,7 +91,7 @@ const SignupForm: FC<SignupFormProps> = () => {
             className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-red-400"
             type="text"
             placeholder="Dave Kwon"
-            onChange={(e) => user.setUsername(e.target.value)}
+            onChange={(e) => user.setUserName(e.target.value)}
           />
         </div>
       </div>

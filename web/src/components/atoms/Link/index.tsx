@@ -1,8 +1,8 @@
 import NextLink, { LinkProps as NextLinkProps } from "next/link";
 import { useRouter } from "next/router";
+import nookies from "nookies";
 import * as R from "ramda";
 import React, { ReactNode, useCallback } from "react";
-import { useRecoilValue } from "recoil";
 
 // import { UserSelector } from "recoil/user/state";
 
@@ -16,12 +16,13 @@ const publicOpenedHrefs = ["/", "login", "signup"];
 
 function Link({ target, children, ...props }: LinkProps) {
   const router = useRouter();
-  const isLoggedIn = false;
 
   const handleClick = useCallback(
     (e: React.MouseEvent<HTMLAnchorElement>) => {
-      console.log(props.href);
       const isPublic = R.includes(props.href, publicOpenedHrefs);
+      const isLoggedIn =
+        nookies.get(null).accessToken !== null ||
+        nookies.get(null).refreshToken !== null;
       if (!isPublic && !isLoggedIn) {
         e.preventDefault();
         router.push("/login");

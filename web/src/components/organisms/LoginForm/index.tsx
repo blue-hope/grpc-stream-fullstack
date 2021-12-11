@@ -2,9 +2,11 @@ import { LoginRequest } from "@api/_proto/grpc/qhat/auth/message_pb";
 import { login } from "@api/auth";
 import { AuthState } from "@stores/auth";
 import jwt_decode, { JwtPayload } from "jwt-decode";
+import { useRouter } from "next/router";
 import nookies from "nookies";
 import React, { FC, useState } from "react";
-import { useRecoilState } from "recoil";
+import { toast } from "react-toastify";
+import { useSetRecoilState } from "recoil";
 
 interface LoginFormProps {}
 
@@ -24,33 +26,47 @@ const Label: FC<LabelProps> = ({ name }) => {
 };
 
 const LoginForm: FC<LoginFormProps> = () => {
+  const router = useRouter();
   const [request] = useState(new LoginRequest());
-  const [authState, setAuthState] = useRecoilState(AuthState);
+  const setAuthState = useSetRecoilState(AuthState);
 
-  function setCookies() {
+  function setCookies(accessToken: string, refreshToken: string) {
     const now = Math.round(new Date().getTime() / 1000);
-    authState.accessToken &&
-      nookies.set(null, "accessToken", authState.accessToken, {
-        maxAge: jwt_decode<JwtPayload>(authState.accessToken).exp! - now,
-        path: "/",
-      });
-    authState.refreshToken &&
-      nookies.set(null, "refreshToken", authState.refreshToken, {
-        maxAge: jwt_decode<JwtPayload>(authState.refreshToken).exp! - now,
-        path: "/",
-      });
+    nookies.set(null, "accessToken", accessToken, {
+      maxAge: jwt_decode<JwtPayload>(accessToken).exp! - now,
+      path: "/",
+    });
+    nookies.set(null, "refreshToken", refreshToken, {
+      maxAge: jwt_decode<JwtPayload>(refreshToken).exp! - now,
+      path: "/",
+    });
   }
 
   async function handleLogin() {
+    const id = toast.loading("요청을 처리중입니다...");
     try {
       const loginResponse = await login(request);
       setAuthState({
-        accessToken: loginResponse.getAccesstoken(),
-        refreshToken: loginResponse.getRefreshtoken(),
+        accessToken: loginResponse.getAccessToken(),
+        refreshToken: loginResponse.getRefreshToken(),
       });
-      setCookies();
-    } catch (e) {}
-    // router.push("/friend");
+      setCookies(
+        loginResponse.getAccessToken(),
+        loginResponse.getRefreshToken()
+      );
+      router.push("/friend");
+      toast.update(id, {
+        isLoading: false,
+        autoClose: 1,
+      });
+    } catch (e: any) {
+      toast.update(id, {
+        render: e.message,
+        type: "error",
+        isLoading: false,
+        autoClose: 2000,
+      });
+    }
   }
 
   return (

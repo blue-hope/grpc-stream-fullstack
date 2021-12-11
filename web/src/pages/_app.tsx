@@ -1,3 +1,4 @@
+import { RecoilNexus } from "@components/atoms/RecoilNexus";
 import "@styles/global.css";
 import "@styles/normalize.css";
 import type { AppProps } from "next/app";
@@ -9,6 +10,7 @@ import "tailwindcss/tailwind.css";
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <RecoilRoot>
+      <RecoilNexus />
       <ToastContainer
         position="top-center"
         autoClose={3000}

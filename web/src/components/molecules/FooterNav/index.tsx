@@ -3,13 +3,13 @@ import Image from "@components/atoms/Image";
 import Link from "@components/atoms/Link";
 import { BaseProps } from "@utils/baseprops";
 import { useRouter } from "next/router";
-import React, { FC, useEffect } from "react";
+import React, { FC } from "react";
 
 const IconSizes = {
   friend: "40%",
   chat: "30%",
   noti: "38%",
-  setting: "35%",
+  search: "35%",
 };
 
 interface FooterNavProps extends BaseProps {

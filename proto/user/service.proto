@@ -2,9 +2,12 @@ syntax = "proto3";
 
 package grpc.qhat.user;
 
-import "google/protobuf/struct.proto";
 import "grpc/qhat/user/message.proto";
 
-service UserService {
+service UnauthorizedUserService {
   rpc create(CreateRequest) returns (CreateResponse) {}
+}
+
+service UserService {
+  rpc read(ReadRequest) returns (ReadResponse) {}
 }

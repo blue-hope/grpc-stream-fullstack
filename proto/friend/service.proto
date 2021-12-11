@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package grpc.qhat.friend;
+
+import "google/protobuf/empty.proto";
+import "grpc/qhat/friend/message.proto";
+
+service FriendService {
+  rpc create(CreateRequest) returns (CreateResponse) {}
+  rpc readSent(google.protobuf.Empty) returns (ReadResponse) {}
+  rpc readReceived(google.protobuf.Empty) returns (ReadResponse) {}
+  rpc readAccepted(google.protobuf.Empty) returns (ReadResponse) {}
+}

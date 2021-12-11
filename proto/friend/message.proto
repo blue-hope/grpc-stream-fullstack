@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package grpc.qhat.friend;
+
+import "google/protobuf/timestamp.proto";
+import "grpc/qhat/user/message.proto";
+
+enum FriendStatus {
+  PENDING = 0;
+  RECEIVED = 1;
+  ACCEPTED = 2;
+  REFUSED = 3;
+}
+
+message FriendProto {
+  int64 id = 1;
+  grpc.qhat.user.UserProto sender = 2;
+  grpc.qhat.user.UserProto receiver = 3;
+  FriendStatus status = 4;
+  google.protobuf.Timestamp createdAt = 5;
+}
+
+message CreateRequest {
+  int64 receiverId = 1;
+}
+
+message CreateResponse {
+  FriendProto friend = 1;
+}
+
+message ReadResponse{
+  repeated FriendProto friends = 1;
+}

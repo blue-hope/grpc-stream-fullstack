@@ -18,3 +18,11 @@ message CreateRequest {
 message CreateResponse {
   UserProto user = 1;
 }
+
+message ReadRequest {
+  string searchKeyword = 1;
+}
+
+message ReadResponse {
+  repeated UserProto users = 1;
+}

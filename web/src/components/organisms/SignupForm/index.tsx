@@ -28,21 +28,28 @@ const Label: FC<LabelProps> = ({ name }) => {
 
 const SignupForm: FC<SignupFormProps> = () => {
   const router = useRouter();
-  const setUser = useSetRecoilState(UserState);
   const [user] = useState(new UserProto());
   const [request] = useState(new UserCreateRequest());
 
   async function handleSignUp() {
     const id = toast.loading("요청을 처리중입니다...");
-    const userCreateResponse = await userCreate(request);
-    setUser(userCreateResponse.getUser());
-    toast.update(id, {
-      render: "회원가입 되었습니다. 로그인 해주세요.",
-      type: "success",
-      isLoading: false,
-      autoClose: 2000,
-    });
-    router.push("/login");
+    try {
+      await userCreate(request);
+      toast.update(id, {
+        render: "회원가입 되었습니다. 로그인 해주세요.",
+        type: "success",
+        isLoading: false,
+        autoClose: 2000,
+      });
+      router.push("/login");
+    } catch (e: any) {
+      toast.update(id, {
+        render: e.message,
+        type: "error",
+        isLoading: false,
+        autoClose: 2000,
+      });
+    }
   }
 
   useEffect(() => {

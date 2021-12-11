@@ -1,9 +1,10 @@
 import { LoginRequest } from "@api/_proto/grpc/qhat/auth/message_pb";
 import { login } from "@api/auth";
-import { UserState } from "@stores/user";
-import { useRouter } from "next/router";
-import React, { FC, useEffect, useState } from "react";
-import { useSetRecoilState } from "recoil";
+import { AuthState } from "@stores/auth";
+import jwt_decode, { JwtPayload } from "jwt-decode";
+import nookies from "nookies";
+import React, { FC, useState } from "react";
+import { useRecoilState } from "recoil";
 
 interface LoginFormProps {}
 
@@ -23,13 +24,32 @@ const Label: FC<LabelProps> = ({ name }) => {
 };
 
 const LoginForm: FC<LoginFormProps> = () => {
-  const router = useRouter();
-  const setUser = useSetRecoilState(UserState);
   const [request] = useState(new LoginRequest());
+  const [authState, setAuthState] = useRecoilState(AuthState);
+
+  function setCookies() {
+    const now = Math.round(new Date().getTime() / 1000);
+    authState.accessToken &&
+      nookies.set(null, "accessToken", authState.accessToken, {
+        maxAge: jwt_decode<JwtPayload>(authState.accessToken).exp! - now,
+        path: "/",
+      });
+    authState.refreshToken &&
+      nookies.set(null, "refreshToken", authState.refreshToken, {
+        maxAge: jwt_decode<JwtPayload>(authState.refreshToken).exp! - now,
+        path: "/",
+      });
+  }
 
   async function handleLogin() {
-    const loginResponse = await login(request);
-    console.log(loginResponse.getAccesstoken());
+    try {
+      const loginResponse = await login(request);
+      setAuthState({
+        accessToken: loginResponse.getAccesstoken(),
+        refreshToken: loginResponse.getRefreshtoken(),
+      });
+      setCookies();
+    } catch (e) {}
     // router.push("/friend");
   }
 

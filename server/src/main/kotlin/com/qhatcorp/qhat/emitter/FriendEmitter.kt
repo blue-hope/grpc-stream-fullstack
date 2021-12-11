@@ -34,6 +34,7 @@ class FriendEmitter {
                         }
                         .build()
                 )
+                it.onCompleted()
             }
         }
     }

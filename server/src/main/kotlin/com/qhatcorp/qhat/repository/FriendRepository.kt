@@ -7,4 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository
 interface FriendRepository: JpaRepository<Friend, Long> {
     fun getAllBySenderIdAndStatusIn(senderId: Long, statuses: List<FriendStatus>): List<Friend>
     fun getAllByReceiverIdAndStatusIn(receiverId: Long, statuses: List<FriendStatus>): List<Friend>
+    fun existsBySenderIdAndReceiverId(senderId: Long, receiverId: Long): Boolean
 }

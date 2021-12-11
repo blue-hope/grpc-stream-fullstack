@@ -22,13 +22,13 @@ class UserEmitter {
             }
         }
 
-        fun emitReadResponse(
-            responseObserver: StreamObserver<Message.ReadResponse>,
+        fun emitSearchResponse(
+            responseObserver: StreamObserver<Message.SearchResponse>,
             users: List<User>
         ) {
             responseObserver.also {
                 it.onNext(
-                    Message.ReadResponse.newBuilder()
+                    Message.SearchResponse.newBuilder()
                         .apply {
                             this.addAllUsers(users.map { user -> user.toProto() })
                         }

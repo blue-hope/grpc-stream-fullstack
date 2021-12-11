@@ -1,6 +1,7 @@
 package com.qhatcorp.qhat.controller
 
 import com.google.protobuf.Empty
+import com.qhatcorp.qhat.emitter.BaseEmitter
 import com.qhatcorp.qhat.emitter.FriendEmitter
 import com.qhatcorp.qhat.interceptor.AuthorizationInterceptor
 import com.qhatcorp.qhat.service.FriendService
@@ -55,5 +56,35 @@ class FriendController(
         val userId = AuthorizationInterceptor.CLIENT_ID_CONTEXT_KEY.get().toLong()
         val friends = friendService.getAllAcceptedFriends(userId)
         FriendEmitter.emitReadResponse(responseObserver, friends)
+    }
+
+    override fun cancel(
+        request: Message.ControlRequest,
+        responseObserver: StreamObserver<Empty>
+    ) {
+        val userId = AuthorizationInterceptor.CLIENT_ID_CONTEXT_KEY.get().toLong()
+        val friendId = request.id
+        friendService.cancelFriend(friendId, userId)
+        BaseEmitter.emitEmpty(responseObserver)
+    }
+
+    override fun accept(
+        request: Message.ControlRequest,
+        responseObserver: StreamObserver<Empty>
+    ) {
+        val userId = AuthorizationInterceptor.CLIENT_ID_CONTEXT_KEY.get().toLong()
+        val friendId = request.id
+        friendService.acceptFriend(friendId, userId)
+        BaseEmitter.emitEmpty(responseObserver)
+    }
+
+    override fun refuse(
+        request: Message.ControlRequest,
+        responseObserver: StreamObserver<Empty>
+    ) {
+        val userId = AuthorizationInterceptor.CLIENT_ID_CONTEXT_KEY.get().toLong()
+        val friendId = request.id
+        friendService.refuseFriend(friendId, userId)
+        BaseEmitter.emitEmpty(responseObserver)
     }
 }

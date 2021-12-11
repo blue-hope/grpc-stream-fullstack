@@ -10,6 +10,7 @@ import javax.transaction.Transactional
 @Service
 class UserService(
     private val authService: AuthService,
+    private val friendService: FriendService,
     private val userRepository: UserRepository
 ) {
     @Transactional
@@ -30,8 +31,9 @@ class UserService(
         return userRepository.getByEmail(email)
     }
 
-    fun getAllUsersByEmail(request: Message.ReadRequest): List<User> {
-        val searchKeyword = request.searchKeyword
-        return userRepository.getAllByEmailLike("%$searchKeyword%")
+    fun search(userId: Long, searchKeyword: String): List<User> {
+        return userRepository.getAllByIdNotAndEmailLike(userId, "%$searchKeyword%").filterNot {
+            friendService.checkRelationExist(userId, it.id!!)
+        }
     }
 }

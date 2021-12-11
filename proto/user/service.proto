@@ -9,5 +9,5 @@ service UnauthorizedUserService {
 }
 
 service UserService {
-  rpc read(ReadRequest) returns (ReadResponse) {}
+  rpc search(SearchRequest) returns (SearchResponse) {}
 }

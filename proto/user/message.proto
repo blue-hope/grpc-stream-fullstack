@@ -7,7 +7,7 @@ import "google/protobuf/struct.proto";
 message UserProto {
   int64 id = 1;
   string email = 2;
-  string userName = 3;
+  string user_name = 3;
 }
 
 message CreateRequest {
@@ -19,10 +19,10 @@ message CreateResponse {
   UserProto user = 1;
 }
 
-message ReadRequest {
-  string searchKeyword = 1;
+message SearchRequest {
+  string search_keyword = 1;
 }
 
-message ReadResponse {
+message SearchResponse {
   repeated UserProto users = 1;
 }

@@ -10,4 +10,7 @@ service FriendService {
   rpc readSent(google.protobuf.Empty) returns (ReadResponse) {}
   rpc readReceived(google.protobuf.Empty) returns (ReadResponse) {}
   rpc readAccepted(google.protobuf.Empty) returns (ReadResponse) {}
+  rpc cancel(ControlRequest) returns (google.protobuf.Empty) {}
+  rpc accept(ControlRequest) returns (google.protobuf.Empty) {}
+  rpc refuse(ControlRequest) returns (google.protobuf.Empty) {}
 }

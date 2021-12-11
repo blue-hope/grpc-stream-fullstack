@@ -1,5 +1,6 @@
 package com.qhatcorp.qhat.controller
 
+import com.qhatcorp.qhat.emitter.UserEmitter
 import com.qhatcorp.qhat.service.UserService
 import grpc.qhat.user.Message
 import grpc.qhat.user.UserServiceGrpc
@@ -10,20 +11,11 @@ import org.lognet.springboot.grpc.GRpcService
 class UserController(
     private val userService: UserService
 ): UserServiceGrpc.UserServiceImplBase() {
-    override fun create(
-        request: Message.CreateRequest,
-        responseObserver: StreamObserver<Message.CreateResponse>
+    override fun read(
+        request: Message.ReadRequest,
+        responseObserver: StreamObserver<Message.ReadResponse>
     ) {
-        val user = userService.createUser(request)
-        responseObserver.also {
-            it.onNext(
-                Message.CreateResponse.newBuilder()
-                    .apply {
-                        this.user = user.toProto()
-                    }
-                    .build()
-            )
-            it.onCompleted()
-        }
+        val users = userService.getAllUsersByEmail(request)
+        UserEmitter.emitReadResponse(responseObserver, users)
     }
 }

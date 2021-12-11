@@ -5,4 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository
 
 interface UserRepository: JpaRepository<User, Long> {
     fun getByEmail(email: String): User?
+    fun getAllByEmailLike(searchKeyword: String): List<User>
 }

@@ -1,6 +1,6 @@
 package com.qhatcorp.qhat.controller
 
-import com.google.rpc.Code
+import com.qhatcorp.qhat.emitter.AuthEmitter
 import com.qhatcorp.qhat.service.AuthService
 import com.qhatcorp.qhat.service.UserService
 import grpc.qhat.auth.AuthServiceGrpc
@@ -9,7 +9,7 @@ import io.grpc.Status
 import io.grpc.stub.StreamObserver
 import org.lognet.springboot.grpc.GRpcService
 
-@GRpcService
+@GRpcService(applyGlobalInterceptors = false)
 class AuthController(
     private val authService: AuthService,
     private val userService: UserService,
@@ -23,19 +23,15 @@ class AuthController(
             responseObserver.onError(errStatus.asRuntimeException())
             return
         }
+        val auth = authService.getAuthByUserId(user.id!!) ?: run {
+            responseObserver.onError(errStatus.asRuntimeException())
+            return
+        }
 
-        if (authService.login(user, request.password)) {
-            val jwt = authService.createJwt(user)
-            responseObserver.also {
-                it.onNext(
-                    Message.LoginResponse.newBuilder()
-                        .apply {
-                            this.accessToken = jwt
-                        }
-                        .build()
-                )
-                it.onCompleted()
-            }
+        if (authService.checkPassword(auth.password, request.password)) {
+            val (accessToken, refreshToken) = authService.createJwt(user)
+            authService.saveRefreshToken(auth, refreshToken)
+            AuthEmitter.emitLoginResponse(responseObserver, accessToken, refreshToken)
         } else {
             responseObserver.onError(errStatus.asRuntimeException())
         }

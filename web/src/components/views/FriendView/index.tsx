@@ -34,7 +34,7 @@ const FriendView: FC<FriendViewProps> = () => {
           {
             <div
               className="absolute top-3 right-3 font-semibold text-blue-400"
-              onClick={() => openChatRoom(user.getId())}
+              onClick={() => openChatRoom(friend.getReceiver()!.getId())}
             >
               1:1 대화
             </div>

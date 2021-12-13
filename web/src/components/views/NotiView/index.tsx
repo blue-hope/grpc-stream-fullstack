@@ -1,6 +1,6 @@
 import NotiResult from "@components/organisms/NotiResult";
 import BackgroundTemplate from "@components/templates/BackgroundTemplate";
-import React, { FC, useState } from "react";
+import React, { FC } from "react";
 
 interface NotiViewProps {}
 

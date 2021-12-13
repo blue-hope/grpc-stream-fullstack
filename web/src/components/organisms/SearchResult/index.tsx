@@ -4,6 +4,11 @@ import { friendCreate } from "@api/friend";
 import { userSearch } from "@api/user";
 import UserProfileInline from "@components/molecules/UserProfileInline";
 import { SearchkeywordState, SearchResultState } from "@stores/search";
+import {
+  updateToastForError,
+  updateToastForLoading,
+  updateToastForSuccess,
+} from "@utils/updateToast";
 import React, { FC } from "react";
 import { toast } from "react-toastify";
 import { useRecoilState, useRecoilValue } from "recoil";
@@ -22,25 +27,15 @@ const SearchResult: FC<SearchResultProps> = () => {
   }
 
   async function createFriend(receiverId: number) {
-    const id = toast.loading("요청을 처리중입니다...");
+    const id = updateToastForLoading();
     const request = new FriendCreateRequest();
     request.setReceiverId(receiverId);
     try {
       await friendCreate(request);
-      toast.update(id, {
-        render: "친구 신청을 보냈습니다.",
-        type: "success",
-        isLoading: false,
-        autoClose: 2000,
-      });
+      updateToastForSuccess(id, "친구 신청을 보냈습니다.");
       await searchUser();
     } catch (e: any) {
-      toast.update(id, {
-        render: e.message,
-        type: "error",
-        isLoading: false,
-        autoClose: 2000,
-      });
+      updateToastForError(id, e.message);
     }
   }
 

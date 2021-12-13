@@ -1,7 +1,6 @@
-/* eslint-disable jsx-a11y/alt-text */
 import { FriendProto } from "@api/_proto/grpc/qhat/friend/message_pb";
 import { UserProto } from "@api/_proto/grpc/qhat/user/message_pb";
-import Image from "@components/atoms/Image";
+import ImageWrapper from "@components/atoms/Image";
 import { timeAgo, timestampToDate } from "@utils/date";
 import React, { FC, ReactNode } from "react";
 
@@ -23,7 +22,7 @@ const FriendInline: FC<FriendInlineProps> = ({
     <div className="w-full h-30 mt-4 p-3 text-sm relative">
       {user && (
         <div className="absolute">
-          <Image
+          <ImageWrapper
             src={`https://avatars.dicebear.com/api/identicon/${user.getEmail()}.svg`}
             width="20px"
             height="20px"

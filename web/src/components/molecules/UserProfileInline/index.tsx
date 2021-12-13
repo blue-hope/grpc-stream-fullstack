@@ -1,6 +1,5 @@
-/* eslint-disable jsx-a11y/alt-text */
 import { UserProto } from "@api/_proto/grpc/qhat/user/message_pb";
-import Image from "@components/atoms/Image";
+import ImageWrapper from "@components/atoms/Image";
 import React, { FC, ReactNode } from "react";
 
 interface UserProfileInlineProps {
@@ -12,7 +11,7 @@ const UserProfileInline: FC<UserProfileInlineProps> = ({ user, children }) => {
   return (
     <div className="w-full h-30 mt-4 p-3 text-sm relative">
       <div className="absolute">
-        <Image
+        <ImageWrapper
           src={`https://avatars.dicebear.com/api/identicon/${user.getEmail()}.svg`}
           width="20px"
           height="20px"

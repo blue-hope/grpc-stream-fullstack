@@ -1,6 +1,11 @@
 import { LoginRequest } from "@api/_proto/grpc/qhat/auth/message_pb";
 import { login } from "@api/auth";
 import { AuthState } from "@stores/auth";
+import {
+  updateToastForClose,
+  updateToastForError,
+  updateToastForLoading,
+} from "@utils/updateToast";
 import jwt_decode, { JwtPayload } from "jwt-decode";
 import { useRouter } from "next/router";
 import nookies from "nookies";
@@ -43,7 +48,7 @@ const LoginForm: FC<LoginFormProps> = () => {
   }
 
   async function handleLogin() {
-    const id = toast.loading("요청을 처리중입니다...");
+    const id = updateToastForLoading();
     try {
       const loginResponse = await login(request);
       setAuthState({
@@ -55,17 +60,9 @@ const LoginForm: FC<LoginFormProps> = () => {
         loginResponse.getRefreshToken()
       );
       router.push("/friend");
-      toast.update(id, {
-        isLoading: false,
-        autoClose: 1,
-      });
+      updateToastForClose(id);
     } catch (e: any) {
-      toast.update(id, {
-        render: e.message,
-        type: "error",
-        isLoading: false,
-        autoClose: 2000,
-      });
+      updateToastForError(id, e.message);
     }
   }
 

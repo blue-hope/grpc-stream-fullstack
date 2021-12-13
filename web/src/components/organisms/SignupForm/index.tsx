@@ -3,6 +3,11 @@ import {
   UserProto,
 } from "@api/_proto/grpc/qhat/user/message_pb";
 import { userCreate } from "@api/user";
+import {
+  updateToastForError,
+  updateToastForLoading,
+  updateToastForSuccess,
+} from "@utils/updateToast";
 import { useRouter } from "next/router";
 import React, { FC, useEffect, useState } from "react";
 import { toast } from "react-toastify";
@@ -30,23 +35,13 @@ const SignupForm: FC<SignupFormProps> = () => {
   const [request] = useState(new UserCreateRequest());
 
   async function handleSignUp() {
-    const id = toast.loading("요청을 처리중입니다...");
+    const id = updateToastForLoading();
     try {
       await userCreate(request);
-      toast.update(id, {
-        render: "회원가입 되었습니다. 로그인 해주세요.",
-        type: "success",
-        isLoading: false,
-        autoClose: 2000,
-      });
+      updateToastForSuccess(id, "회원가입 되었습니다. 로그인 해주세요.");
       router.push("/login");
     } catch (e: any) {
-      toast.update(id, {
-        render: e.message,
-        type: "error",
-        isLoading: false,
-        autoClose: 2000,
-      });
+      updateToastForError(id, e.message);
     }
   }
 

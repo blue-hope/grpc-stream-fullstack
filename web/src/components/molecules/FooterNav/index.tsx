@@ -1,5 +1,4 @@
-/* eslint-disable jsx-a11y/alt-text */
-import Image from "@components/atoms/Image";
+import ImageWrapper from "@components/atoms/Image";
 import Link from "@components/atoms/Link";
 import { BaseProps } from "@utils/baseprops";
 import { useRouter } from "next/router";
@@ -23,13 +22,13 @@ const FooterNav: FC<FooterNavProps> = ({ className, href }) => {
     <Link href={href}>
       <div className={`w-full h-full flex-center ${className}`}>
         {router.pathname.includes(href) ? (
-          <Image
+          <ImageWrapper
             src={`/icons/icon_${href}_active.svg`}
             width={IconSizes[href]}
             height={IconSizes[href]}
           />
         ) : (
-          <Image
+          <ImageWrapper
             src={`/icons/icon_${href}_inactive.svg`}
             width={IconSizes[href]}
             height={IconSizes[href]}

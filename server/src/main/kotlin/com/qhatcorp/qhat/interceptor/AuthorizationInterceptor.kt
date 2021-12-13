@@ -22,6 +22,7 @@ class AuthorizationInterceptor : ServerInterceptor {
         val AUTHORIZATION_METADATA_KEY: Metadata.Key<String> = Metadata.Key.of("Authorization", ASCII_STRING_MARSHALLER)
         val CLIENT_ID_CONTEXT_KEY: Context.Key<String> = Context.key("clientId")
     }
+
     private val accessTokenParser = Jwts.parserBuilder().setSigningKey(ACCESS_TOKEN_KEY).build()
     private val refreshTokenParser = Jwts.parserBuilder().setSigningKey(REFRESH_TOKEN_KEY).build()
 

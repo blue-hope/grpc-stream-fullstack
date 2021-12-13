@@ -39,6 +39,7 @@ class User(
             )
         }
     }
+
     fun toProto(): Message.UserProto {
         return Message.UserProto.newBuilder()
             .setId(id!!)

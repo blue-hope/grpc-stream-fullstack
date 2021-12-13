@@ -1,4 +1,4 @@
-package com.qhatcorp.qhat.util
+package com.qhatcorp.qhat.extension
 
 import com.google.protobuf.Timestamp
 import java.time.LocalDateTime

@@ -2,6 +2,7 @@ package com.qhatcorp.qhat.service
 
 import com.qhatcorp.qhat.entity.Friend
 import com.qhatcorp.qhat.entity.FriendStatus
+import com.qhatcorp.qhat.entity.User
 import com.qhatcorp.qhat.repository.FriendRepository
 import com.qhatcorp.qhat.repository.UserRepository
 import org.springframework.stereotype.Service
@@ -10,6 +11,7 @@ import javax.transaction.Transactional
 
 @Service
 class FriendService(
+    private val chatService: ChatService,
     private val userRepository: UserRepository,
     private val friendRepository: FriendRepository,
 ) {
@@ -21,6 +23,10 @@ class FriendService(
             createdAt = LocalDateTime.now()
         )
         return friendRepository.save(friend)
+    }
+
+    fun getFriend(sender: User, receiver: User): Friend? {
+        return friendRepository.getBySenderIdAndReceiverId(sender.id!!, receiver.id!!)
     }
 
     fun getAllSentFriends(userId: Long): List<Friend> {
@@ -50,13 +56,22 @@ class FriendService(
     fun acceptFriend(friendId: Long, userId: Long) {
         val friend = friendRepository.getById(friendId)
         if (friend.receiver.id == userId && friend.status == FriendStatus.PENDING) {
+            val chatRoom = chatService.createChatRoom(listOf(friend.sender, friend.receiver))
             val friendReversed = Friend(
                 sender = friend.receiver,
                 receiver = friend.sender,
+                chatRoom = chatRoom,
                 status = FriendStatus.ACCEPTED_REVERSE,
                 createdAt = LocalDateTime.now()
             )
-            friendRepository.saveAll(listOf(friend.apply { this.status = FriendStatus.ACCEPTED }, friendReversed))
+            friendRepository.saveAll(
+                listOf(
+                    friend.apply {
+                        this.status = FriendStatus.ACCEPTED
+                        this.chatRoom = chatRoom
+                    }, friendReversed
+                )
+            )
         }
     }
 

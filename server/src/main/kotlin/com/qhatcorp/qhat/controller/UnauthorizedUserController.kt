@@ -12,7 +12,7 @@ import org.springframework.dao.DataIntegrityViolationException
 @GRpcService(applyGlobalInterceptors = false)
 class UnauthorizedUserController(
     private val userService: UserService
-): UnauthorizedUserServiceGrpc.UnauthorizedUserServiceImplBase() {
+) : UnauthorizedUserServiceGrpc.UnauthorizedUserServiceImplBase() {
     override fun create(
         request: Message.CreateRequest,
         responseObserver: StreamObserver<Message.CreateResponse>

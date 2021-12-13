@@ -13,7 +13,7 @@ import org.lognet.springboot.grpc.GRpcService
 class AuthController(
     private val authService: AuthService,
     private val userService: UserService,
-    ): AuthServiceGrpc.AuthServiceImplBase() {
+) : AuthServiceGrpc.AuthServiceImplBase() {
     override fun login(
         request: Message.LoginRequest,
         responseObserver: StreamObserver<Message.LoginResponse>

@@ -4,8 +4,9 @@ import com.qhatcorp.qhat.entity.Friend
 import com.qhatcorp.qhat.entity.FriendStatus
 import org.springframework.data.jpa.repository.JpaRepository
 
-interface FriendRepository: JpaRepository<Friend, Long> {
+interface FriendRepository : JpaRepository<Friend, Long> {
     fun getAllBySenderIdAndStatusIn(senderId: Long, statuses: List<FriendStatus>): List<Friend>
     fun getAllByReceiverIdAndStatusIn(receiverId: Long, statuses: List<FriendStatus>): List<Friend>
     fun existsBySenderIdAndReceiverId(senderId: Long, receiverId: Long): Boolean
+    fun getBySenderIdAndReceiverId(senderId: Long, receiverId: Long): Friend?
 }

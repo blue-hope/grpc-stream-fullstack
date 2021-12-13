@@ -15,7 +15,7 @@ import org.springframework.dao.DataIntegrityViolationException
 @GRpcService
 class FriendController(
     private val friendService: FriendService
-): FriendServiceGrpc.FriendServiceImplBase() {
+) : FriendServiceGrpc.FriendServiceImplBase() {
     override fun create(
         request: Message.CreateRequest,
         responseObserver: StreamObserver<Message.CreateResponse>

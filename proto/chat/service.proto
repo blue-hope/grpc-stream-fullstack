@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package grpc.qhat.chat;
+
+import "grpc/qhat/chat/message.proto";
+
+service ChatService {
+    rpc create(CreateRequest) returns (CreateResponse) {}
+    rpc readMessage(ReadMessageRequest) returns (ReadMessageResponse) {}
+    rpc readRoom(ReadRoomRequest) returns (ReadRoomResponse) {}
+    rpc room(stream RoomRequest) returns (stream RoomResponse) {}
+    rpc chat(stream MessageRequest) returns (stream MessageResponse) {}
+}

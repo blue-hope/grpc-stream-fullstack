@@ -2,8 +2,6 @@ syntax = "proto3";
 
 package grpc.qhat.user;
 
-import "google/protobuf/struct.proto";
-
 message UserProto {
   int64 id = 1;
   string email = 2;

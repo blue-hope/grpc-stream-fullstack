@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+package grpc.qhat.chat;
+
+import "google/protobuf/timestamp.proto";
+import "grpc/qhat/user/message.proto";
+
+message ChatRoomProto {
+  int64 id = 1;
+  string name = 2;
+  bool is_message_exist = 3;
+  google.protobuf.Timestamp created_at = 4;
+}
+
+message ChatUserProto {
+  int64 id = 1;
+  grpc.qhat.user.UserProto user = 2;
+  ChatRoomProto chat_room = 3;
+}
+
+message ChatMessageProto {
+  int64 id = 1;
+  ChatRoomProto chat_room = 2;
+  ChatUserProto chat_user = 3;
+  string message = 4;
+  google.protobuf.Timestamp created_at = 5;
+}
+
+message CreateRequest {
+  repeated grpc.qhat.user.UserProto users = 1;
+  string name = 2;
+}
+
+message CreateResponse {
+  ChatRoomProto chat_room = 1;
+  repeated ChatUserProto chat_users = 2;
+  ChatUserProto chat_user_me = 3;
+}
+
+message ReadRequest {
+  ChatRoomProto chat_room = 1;
+}
+
+message ReadResponse {
+  repeated ChatMessageProto chat_messages = 1;
+}
+
+message MessageRequest {
+  ChatMessageProto chat_message = 1;
+}
+
+message MessageResponse {
+  ChatMessageProto chat_message = 1;
+}
